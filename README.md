@@ -1,3 +1,7 @@
+This is a kind of exercise I chose in order to practice sorting algorithms and at the same time practice using React.js.
+
+I am still working on the implementation of QuickSort, HeapSort and BubbleSort.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
