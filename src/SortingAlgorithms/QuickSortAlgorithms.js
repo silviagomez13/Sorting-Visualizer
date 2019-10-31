@@ -36,52 +36,33 @@ export function getQuickSortAnimations(array) {
     let k = start;
     let i = start;
     let pivot = array[end]; // ultimo elemento
+    
+    
+
     //console.log({animations});
     console.log({pivot});
-    // each time we finds an element less than or equal to pivot,
-    // k is incremented and that element would be placed 
-    // before the pivot.
     for(let j=start; j<end; j++){
-      // These are the values that we're comparing; we push them once
-      // to change their color.
-     
-      // These are the values that we're comparing; we push them a second
-      // time to revert their color.
-      //animations.push([j, end]);
-      
+        const animationEntry = {};
+        animationEntry.idx1 = j;
+        animationEntry.idx2 = k;
+        animationEntry.swap = false;
+        console.log("pushing animation for j k "+j+" "+k);
+
         if (array[j] <= pivot) {
-            
             swap(array,j,k);
             k++;
-            //animations.push([j, k]);
-            animations.push([j, k]);
-            animations.push([j, k]);
-            
-            // We overwrite the value at index k in the original array with the
-            // value at index i in the auxiliary array.
-           // animations.push([array[k], array[j]]);
-            console.log("menos al pivote");
-            console.log({array});
-            //mainArray[k++] = array[j++];
-            //animations.push([i, end]);
-        }else{ 
-            animations.push([k, j]);
-            animations.push([k, j]);
+            animationEntry.swap = true;
         }
-        
-    }   
+        animations.push(animationEntry);   
 
-    
+    }
       swap(array,end,k);
-      console.log("mayor al pivote");
-      console.log({array});
-      //animations.push([i, end]);
-      animations.push([k, end]);
-      animations.push([k, end]);
-      // We overwrite the value at index k in the original array with the
-      // value at index i in the auxiliary array.
-      //animations.push([array[k], array[end]]);
-      //mainArray[k++] = auxiliaryArray[i++];
+      const animationEntry = {};
+      animationEntry.idx1=end;
+      animationEntry.idx2=k;
+      animationEntry.swap = true;
+      animations.push(animationEntry);  
+    
     
     return k;
   }

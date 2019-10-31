@@ -64,33 +64,38 @@ export default class SortingVisualizer extends React.Component {
   quickSort() {
     // We leave it as an exercise to the viewer of this code to implement this method.
     const animations = getQuickSortAnimations(this.state.array);
+    const arrayBars = document.getElementsByClassName('array-bar');
     for (let i = 0; i < animations.length; i++) {
-      const arrayBars = document.getElementsByClassName('array-bar');
-      const isColorChange = i % 3 !== 2;
-      if (isColorChange) {
-        const [barOneIdx, barTwoIdx] = animations[i];
+        const swap = animations[i].swap;
+        const barOneIdx = animations[i].idx1;
+        const barTwoIdx = animations[i].idx2;  
         const barOneStyle = arrayBars[barOneIdx].style;
         const barTwoStyle = arrayBars[barTwoIdx].style;
-        const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+        
         setTimeout(() => {
-          barOneStyle.backgroundColor = color;
-          barTwoStyle.backgroundColor = color;
-          const aux = arrayBars[barOneIdx].clientWidth;
-          barOneStyle.clientWidth = arrayBars[barTwoIdx].clientWidth;
-          barTwoStyle.clientWidth = aux;
-        }, i * ANIMATION_SPEED_MS);
-      } else {
+          barOneStyle.backgroundColor = SECONDARY_COLOR;
+          barTwoStyle.backgroundColor = SECONDARY_COLOR;
+         
+        }, i * 2 * ANIMATION_SPEED_MS);
+      
         setTimeout(() => {
-          const [barOneIdx, barTwoIdx] = animations[i];
-          const barOneStyle = arrayBars[barOneIdx].style;
-          const barTwoStyle = arrayBars[barTwoIdx].style;
+          barOneStyle.backgroundColor = PRIMARY_COLOR;
+          barTwoStyle.backgroundColor = PRIMARY_COLOR;
+         
+          if(swap){
+            const aux = barOneStyle.width;
+            const text = arrayBars[barOneIdx].textContent;
+            
+            barOneStyle.width = barTwoStyle.width;
+            barTwoStyle.width = aux;
 
-          const aux = arrayBars[barOneIdx].clientWidth;
-          barOneStyle.clientWidth = arrayBars[barTwoIdx].clientWidth;
-          barTwoStyle.clientWidth = aux;
+            arrayBars[barOneIdx].textContent = arrayBars[barTwoIdx].textContent;
+            arrayBars[barTwoIdx].textContent = text;
+          }
 
-        }, i * ANIMATION_SPEED_MS);
-      }
+
+        }, ((i * 2)+1) * ANIMATION_SPEED_MS);
+      
     }
   }
 /*
@@ -163,8 +168,13 @@ quickSort() {
             style={{
               backgroundColor: PRIMARY_COLOR,
               width: `${value}px`,
-              height: 1+100/NUMBER_OF_ARRAY_BARS,
-            }}></div>
+              height: 1+200/NUMBER_OF_ARRAY_BARS, 
+              fontSize: "11px",
+              textAlign: "left",
+            }}>{value}</div>
+
+              
+
         ))}
         <button onClick={() => this.resetArray()}>Generate New Array</button>
         <button onClick={() => this.mergeSort()}>Merge Sort</button>
