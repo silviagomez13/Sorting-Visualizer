@@ -1,7 +1,9 @@
  
 import React from 'react';
-import {getMergeSortAnimations} from '../SortingAlgorithms/SortingAlgorithms.js';
-import {getQuickSortAnimations} from '../SortingAlgorithms/QuickSortAlgorithms.js';
+import {getMergeSortAnimations} from '../SortingAlgorithms/MergeSortAlgorithm.js';
+import {getQuickSortAnimations} from '../SortingAlgorithms/QuickSortAlgorithm.js';
+import {getBubleSortAnimations} from '../SortingAlgorithms/BubleSortAlgorithm.js';
+import {getHeapSortAnimations} from '../SortingAlgorithms/HeapSortAlgorithm.js';
 import './SortingVisualizer.css';
 
 // Change this value for the speed of the animations.
@@ -62,7 +64,6 @@ export default class SortingVisualizer extends React.Component {
   }
 
   quickSort() {
-    // We leave it as an exercise to the viewer of this code to implement this method.
     const animations = getQuickSortAnimations(this.state.array);
     const arrayBars = document.getElementsByClassName('array-bar');
     for (let i = 0; i < animations.length; i++) {
@@ -85,7 +86,7 @@ export default class SortingVisualizer extends React.Component {
           if(swap){
             const aux = barOneStyle.width;
             const text = arrayBars[barOneIdx].textContent;
-            
+
             barOneStyle.width = barTwoStyle.width;
             barTwoStyle.width = aux;
 
@@ -98,46 +99,79 @@ export default class SortingVisualizer extends React.Component {
       
     }
   }
-/*
-quickSort() {
-    // We leave it as an exercise to the viewer of this code to implement this method.
-    const animations = getQuickSortAnimations(this.state.array);
-    const newAnimations = [];
-    for(const animation of animations){
-      newAnimations.push(animation.comparison);
-      newAnimations.push(animation.comparison);
-      newAnimations.push(animation.swap);
-    }
 
-    for (let i = 0; i < animations.length; i++) {
-      const [barOneIdx , barTwoIdx] = newAnimations[i];
-      const arrayBars = document.getElementsByClassName('array-bar');
-      const isColorChange = i % 3 !== 2;
-      const barOneStyle = arrayBars[barOneIdx].style;
-      const barTwoStyle = arrayBars[barTwoIdx].style;
-      if (isColorChange) {
-        
-        const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
-        setTimeout(() => {
-          barOneStyle.backgroundColor = color;
-          barTwoStyle.backgroundColor = color;
-        }, i * ANIMATION_SPEED_MS);
-      } else {
-        setTimeout(() => {
-          const tempWidth = barOneStyle.width;
-          barOneStyle.width = barTwoStyle.width;
-          barTwoStyle.width = tempWidth;
-        }, i * ANIMATION_SPEED_MS);
-      }
-    }
-  }
-  */
   heapSort() {
-    // We leave it as an exercise to the viewer of this code to implement this method.
+    const animations = getHeapSortAnimations(this.state.array);
+    const arrayBars = document.getElementsByClassName('array-bar');
+    for (let i = 0; i < animations.length; i++) {
+        const swap = animations[i].swap;
+        const barOneIdx = animations[i].idx1;
+        const barTwoIdx = animations[i].idx2;  
+        const barOneStyle = arrayBars[barOneIdx].style;
+        const barTwoStyle = arrayBars[barTwoIdx].style;
+        
+        setTimeout(() => {
+          barOneStyle.backgroundColor = SECONDARY_COLOR;
+          barTwoStyle.backgroundColor = SECONDARY_COLOR;
+         
+        }, i * 2 * ANIMATION_SPEED_MS);
+      
+        setTimeout(() => {
+          barOneStyle.backgroundColor = PRIMARY_COLOR;
+          barTwoStyle.backgroundColor = PRIMARY_COLOR;
+         
+          if(swap){
+            const aux = barOneStyle.width;
+            const text = arrayBars[barOneIdx].textContent;
+
+            barOneStyle.width = barTwoStyle.width;
+            barTwoStyle.width = aux;
+
+            arrayBars[barOneIdx].textContent = arrayBars[barTwoIdx].textContent;
+            arrayBars[barTwoIdx].textContent = text;
+          }
+
+
+        }, ((i * 2)+1) * ANIMATION_SPEED_MS);
+      
+    }
   }
 
   bubbleSort() {
-    // We leave it as an exercise to the viewer of this code to implement this method.
+    const animations = getBubleSortAnimations(this.state.array);
+    const arrayBars = document.getElementsByClassName('array-bar');
+    for (let i = 0; i < animations.length; i++) {
+        const swap = animations[i].swap;
+        const barOneIdx = animations[i].idx1;
+        const barTwoIdx = animations[i].idx2;  
+        const barOneStyle = arrayBars[barOneIdx].style;
+        const barTwoStyle = arrayBars[barTwoIdx].style;
+        
+        setTimeout(() => {
+          barOneStyle.backgroundColor = SECONDARY_COLOR;
+          barTwoStyle.backgroundColor = SECONDARY_COLOR;
+         
+        }, i * 2 * ANIMATION_SPEED_MS);
+      
+        setTimeout(() => {
+          barOneStyle.backgroundColor = PRIMARY_COLOR;
+          barTwoStyle.backgroundColor = PRIMARY_COLOR;
+         
+          if(swap){
+            const aux = barOneStyle.width;
+            const text = arrayBars[barOneIdx].textContent;
+
+            barOneStyle.width = barTwoStyle.width;
+            barTwoStyle.width = aux;
+
+            arrayBars[barOneIdx].textContent = arrayBars[barTwoIdx].textContent;
+            arrayBars[barTwoIdx].textContent = text;
+          }
+
+
+        }, ((i * 2)+1) * ANIMATION_SPEED_MS);
+      
+    }
   }
 
   // NOTE: This method will only work if your sorting algorithms actually return
